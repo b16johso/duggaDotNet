@@ -12,8 +12,8 @@ namespace duggaDotNet.Controllers
     {
         public IActionResult Index()
         {
-            CustomersModel sm = new CustomersModel();
-            ViewBag.CustomerTable = sm.GetAllCustomers();
+            AliensModel sm = new AliensModel();
+            ViewBag.AlienTable = sm.GetAllAliens();
             return View();
         }
     }

@@ -4,17 +4,17 @@
 <h2>Students</h2>
 <table>
     <tr>
-        @foreach (var dataColumn in ViewBag.CustomerTable.Columns)
+        @foreach (var dataColumn in ViewBag.AlienTable.Columns)
         {
             <th>@dataColumn.ColumnName</th>
         }
     </tr>
-    @foreach (var customerRow in ViewBag.CustomerTable.Rows)
+    @foreach (var alienRow in ViewBag.AlienTable.Rows)
     {
     <tr>
-        @for (int i = 0; i < ViewBag.CustomerTable.Columns.Count; ++i)
+        @for (int i = 0; i < ViewBag.AlienTable.Columns.Count; ++i)
     {
-        <td>@customerRow[i]</td>
+        <td>@alienRow[i]</td>
 }
     </tr>
     }
