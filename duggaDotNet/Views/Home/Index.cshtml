@@ -1,7 +1,14 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<h2>Students</h2>
+<h2>Aliens</h2>
+<form method="post" action="@Url.Action("SearchAliens", "Home")">
+    <label>
+        Name:
+        <input type="text" name="name" value="" placeholder="Customer Name" />
+    </label>
+    <input type="submit" value="Search" />
+</form>
 <table>
     <tr>
         @foreach (var dataColumn in ViewBag.AlienTable.Columns)
@@ -19,4 +26,21 @@
     </tr>
     }
 </table>
-<br />
+<hr />
+<table>
+    <tr>
+        @foreach (var dataColumn in ViewBag.DemographyTable.Columns)
+        {
+            <th>@dataColumn.ColumnName</th>
+        }
+    </tr>
+    @foreach (var demographyRow in ViewBag.DemographyTable.Rows)
+    {
+        <tr>
+            @for (int i = 0; i < ViewBag.DemographyTable.Columns.Count; ++i)
+            {
+                <td>@demographyRow[i]</td>
+            }
+        </tr>
+    }
+</table>

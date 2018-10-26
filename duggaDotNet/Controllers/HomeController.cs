@@ -10,10 +10,18 @@ namespace duggaDotNet.Controllers
 {
     public class HomeController : Controller
     {
+        private AliensModel sp = new AliensModel();
+
         public IActionResult Index()
         {
             AliensModel sm = new AliensModel();
             ViewBag.AlienTable = sm.GetAllAliens();
+            ViewBag.DemographyTable = sm.GetAlienDemography();
+            return View();
+        }
+        public IActionResult SearchAliens(string name)
+        {
+            ViewBag.SearchResults = sp.SearchAliens(name);
             return View();
         }
     }
