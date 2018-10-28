@@ -16,6 +16,7 @@ namespace duggaDotNet.Controllers
         {
             AliensModel sm = new AliensModel();
             ViewBag.AlienTable = sm.GetAllAliens();
+            ViewBag.RaceTable = sm.GetAllRaces();
             ViewBag.DemographyTable = sm.GetAlienDemography();
             return View();
         }

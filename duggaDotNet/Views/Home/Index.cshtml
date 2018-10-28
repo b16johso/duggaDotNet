@@ -18,12 +18,12 @@
     </tr>
     @foreach (var alienRow in ViewBag.AlienTable.Rows)
     {
-    <tr>
-        @for (int i = 0; i < ViewBag.AlienTable.Columns.Count; ++i)
-    {
-        <td>@alienRow[i]</td>
-}
-    </tr>
+        <tr>
+            @for (int i = 0; i < ViewBag.AlienTable.Columns.Count; ++i)
+            {
+                <td>@alienRow[i]</td>
+            }
+        </tr>
     }
 </table>
 <hr />
@@ -44,3 +44,16 @@
         </tr>
     }
 </table>
+<hr />
+<form method="post" action="">
+    <label>
+        Customer:
+        <select name="race">
+            @foreach (var row in ViewBag.RaceTable.Rows)
+            {
+                <option value="@row["namn"]">@row["namn"]</option>
+            }
+        </select>
+    </label>
+    <input type="submit" value="Hemligstämpla Ras" />
+</form>

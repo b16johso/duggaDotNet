@@ -21,6 +21,19 @@ namespace duggaDotNet.Models
             return alienTable;
         }
 
+        public DataTable GetAllRaces()
+        {
+            MySqlConnection dbcon = new MySqlConnection(connectionString);
+            dbcon.Open();
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT namn FROM ras;", dbcon);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "result");
+            DataTable raceTable = ds.Tables["result"];
+            dbcon.Close();
+
+            return raceTable;
+        }
+
         public DataTable GetAlienDemography()
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
