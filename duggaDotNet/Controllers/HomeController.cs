@@ -10,11 +10,10 @@ namespace duggaDotNet.Controllers
 {
     public class HomeController : Controller
     {
-        private AliensModel sp = new AliensModel();
+        private AliensModel sm = new AliensModel();
 
         public IActionResult Index()
         {
-            AliensModel sm = new AliensModel();
             ViewBag.AlienTable = sm.GetAllAliens();
             ViewBag.RaceTable = sm.GetAllRaces();
             ViewBag.DemographyTable = sm.GetAlienDemography();
@@ -22,8 +21,14 @@ namespace duggaDotNet.Controllers
         }
         public IActionResult SearchAliens(string name)
         {
-            ViewBag.SearchResults = sp.SearchAliens(name);
+            ViewBag.SearchResults = sm.SearchAliens(name);
             return View();
+        }
+
+        public IActionResult ClassifyRace(string race)
+        {
+            sm.ClassifyRace(race);
+            return RedirectToAction("Index");
         }
     }
 }

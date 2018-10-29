@@ -45,13 +45,16 @@
     }
 </table>
 <hr />
-<form method="post" action="">
+<form method="post" action="@Url.Action("ClassifyRace", "Home")">
     <label>
         Customer:
         <select name="race">
             @foreach (var row in ViewBag.RaceTable.Rows)
             {
-                <option value="@row["namn"]">@row["namn"]</option>
+                if (row["namn"] != "Hemligstämplat")
+                {
+                    <option value="@row["namn"]">@row["namn"]</option>
+                }
             }
         </select>
     </label>

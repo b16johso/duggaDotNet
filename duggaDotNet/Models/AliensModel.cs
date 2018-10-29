@@ -59,5 +59,19 @@ namespace duggaDotNet.Models
             dbcon.Close();
             return alienTable;
         }
+
+        public void ClassifyRace(string race)
+        {
+            MySqlConnection dbcon = new MySqlConnection(connectionString);
+            dbcon.Open();
+            if (race != "Hemligstämplat")
+            {
+                string classifyString = "CALL hemligstämplaRas(@race);";
+                MySqlCommand sqlCmd = new MySqlCommand(classifyString, dbcon);
+                sqlCmd.Parameters.AddWithValue("@race", race);
+                sqlCmd.ExecuteNonQuery();
+            }
+            dbcon.Close();
+        }
     }
 }
