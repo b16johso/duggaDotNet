@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "ShowDetails";
+}
+<h2>Aliens</h2>
+<table>
+    <tr>
+        @foreach (var dataColumn in ViewBag.ShowDetails.Columns)
+        {
+            <th>@dataColumn.ColumnName</th>
+        }
+    </tr>
+    @foreach (var alienRow in ViewBag.ShowDetails.Rows)
+    {
+        <tr>
+            @for (int i = 0; i < ViewBag.ShowDetails.Columns.Count; ++i)
+            {
+                <td>@alienRow[i]</td>
+            }
+        </tr>
+    }
+</table>

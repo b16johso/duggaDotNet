@@ -12,7 +12,7 @@ namespace duggaDotNet.Models
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
             dbcon.Open();
-            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT alien.IDkod,alienNamn.namn,alien.farlighet,alien.rasNamn FROM alien,alienNamn WHERE alien.IDkod=alienNamn.IDkod;", dbcon);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT alien.IDkod,alienNamn.namn AS Namn,farlighet.namn AS Farlighet,alien.rasNamn AS Ras FROM alien,alienNamn,farlighet WHERE alien.farlighet=farlighet.ID AND alien.IDkod=alienNamn.IDkod;", dbcon);
             DataSet ds = new DataSet();
             adapter.Fill(ds, "result");
             DataTable alienTable = ds.Tables["result"];
@@ -57,6 +57,7 @@ namespace duggaDotNet.Models
             adapter.Fill(ds, "result");
             DataTable alienTable = ds.Tables["result"];
             dbcon.Close();
+
             return alienTable;
         }
 
@@ -80,18 +81,36 @@ namespace duggaDotNet.Models
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
             dbcon.Open();
+            string insertRaceString = "INSERT INTO ras (namn) SELECT * FROM (SELECT @rasNamn) AS tmp WHERE NOT EXISTS (SELECT namn FROM ras WHERE namn = @rasNamn) LIMIT 1;";
             string insertAlienString = "INSERT INTO alien(IDkod, farlighet, rasNamn) values (@IDkod, @farlighet, @rasNamn);";
             string insertNameString = "INSERT INTO alienNamn(namn, IDkod) values (@namn, @IDkod);";
+            MySqlCommand insertRace = new MySqlCommand(insertRaceString, dbcon);
             MySqlCommand insertAlien = new MySqlCommand(insertAlienString, dbcon);
             MySqlCommand insertName = new MySqlCommand(insertNameString, dbcon);
+            insertRace.Parameters.AddWithValue("@rasNamn", rasNamn);
             insertAlien.Parameters.AddWithValue("@IDkod", IDkod);
             insertAlien.Parameters.AddWithValue("@farlighet", farlighet);
             insertAlien.Parameters.AddWithValue("@rasNamn", rasNamn);
             insertName.Parameters.AddWithValue("@namn", namn);
             insertName.Parameters.AddWithValue("@IDkod", IDkod);
+            insertRace.ExecuteNonQuery();
             insertAlien.ExecuteNonQuery();
             insertName.ExecuteNonQuery();
             dbcon.Close();
+        }
+
+        public DataTable ShowDetails(string IDkod)
+        {
+            MySqlConnection dbcon = new MySqlConnection(connectionString);
+            dbcon.Open();
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT regalien.*, alienNamn.namn FROM regalien,alienNamn WHERE regalien.IDkod=@IDkod AND regalien.IDkod=alienNamn.IDkod;", dbcon);
+            adapter.SelectCommand.Parameters.AddWithValue("@IDkod", IDkod);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "result");
+            DataTable alienTable = ds.Tables["result"];
+            dbcon.Close();
+
+            return alienTable;
         }
     }
 }

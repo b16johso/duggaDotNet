@@ -18,12 +18,13 @@
     </tr>
     @foreach (var alienRow in ViewBag.AlienTable.Rows)
     {
-        <tr>
-            @for (int i = 0; i < ViewBag.AlienTable.Columns.Count; ++i)
-            {
-                <td>@alienRow[i]</td>
-            }
-        </tr>
+    <tr>
+        @for (int i = 0; i < ViewBag.AlienTable.Columns.Count; ++i)
+        {
+            <td>@alienRow[i]</td>
+        }
+        <td>@Html.ActionLink("Details", "ShowDetails", "Home", new { IDkod = alienRow["IDkod"] }, new { title = "Click to show details for " + alienRow["IDkod"] })</td>
+    </tr>
     }
 </table>
 <form method="post" action="@Url.Action("InsertAlien", "Home")">

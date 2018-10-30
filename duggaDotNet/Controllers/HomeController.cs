@@ -36,5 +36,11 @@ namespace duggaDotNet.Controllers
             sm.InsertAlien(IDkod, namn, farlighet, rasNamn);
             return RedirectToAction("Index");
         }
+
+        public IActionResult ShowDetails(string IDkod)
+        {
+            ViewBag.ShowDetails = sm.ShowDetails(IDkod);
+            return View();
+        }
     }
 }
