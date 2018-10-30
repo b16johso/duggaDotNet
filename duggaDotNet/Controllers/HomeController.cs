@@ -30,5 +30,11 @@ namespace duggaDotNet.Controllers
             sm.ClassifyRace(race);
             return RedirectToAction("Index");
         }
+
+        public IActionResult InsertAlien(string IDkod, string namn, int farlighet, string rasNamn)
+        {
+            sm.InsertAlien(IDkod, namn, farlighet, rasNamn);
+            return RedirectToAction("Index");
+        }
     }
 }

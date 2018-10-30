@@ -26,6 +26,25 @@
         </tr>
     }
 </table>
+<form method="post" action="@Url.Action("InsertAlien", "Home")">
+    <label>
+        ID-kod:
+        <input type="text" name="IDkod" value="" placeholder="ID-kod" />
+    </label>
+    <label>
+        Namn:
+        <input type="text" name="namn" value="" placeholder="namn" />
+    </label>
+    <label>
+        Farlighet:
+        <input type="text" name="farlighet" value="" placeholder="Farlighet" />
+    </label>
+    <label>
+        Ras:
+        <input type="text" name="rasNamn" value="" placeholder="ras" />
+    </label>
+    <input type="submit" value="Search" />
+</form>
 <hr />
 <table>
     <tr>

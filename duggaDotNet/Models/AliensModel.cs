@@ -60,6 +60,7 @@ namespace duggaDotNet.Models
             return alienTable;
         }
 
+        
         public void ClassifyRace(string race)
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
@@ -71,6 +72,25 @@ namespace duggaDotNet.Models
                 sqlCmd.Parameters.AddWithValue("@race", race);
                 sqlCmd.ExecuteNonQuery();
             }
+            dbcon.Close();
+        }
+
+        //Add new alien to database
+        public void InsertAlien(string IDkod, string namn, int farlighet, string rasNamn)
+        {
+            MySqlConnection dbcon = new MySqlConnection(connectionString);
+            dbcon.Open();
+            string insertAlienString = "INSERT INTO alien(IDkod, farlighet, rasNamn) values (@IDkod, @farlighet, @rasNamn);";
+            string insertNameString = "INSERT INTO alienNamn(namn, IDkod) values (@namn, @IDkod);";
+            MySqlCommand insertAlien = new MySqlCommand(insertAlienString, dbcon);
+            MySqlCommand insertName = new MySqlCommand(insertNameString, dbcon);
+            insertAlien.Parameters.AddWithValue("@IDkod", IDkod);
+            insertAlien.Parameters.AddWithValue("@farlighet", farlighet);
+            insertAlien.Parameters.AddWithValue("@rasNamn", rasNamn);
+            insertName.Parameters.AddWithValue("@namn", namn);
+            insertName.Parameters.AddWithValue("@IDkod", IDkod);
+            insertAlien.ExecuteNonQuery();
+            insertName.ExecuteNonQuery();
             dbcon.Close();
         }
     }
