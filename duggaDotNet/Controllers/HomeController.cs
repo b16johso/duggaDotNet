@@ -40,6 +40,7 @@ namespace duggaDotNet.Controllers
         public IActionResult ShowDetails(string IDkod)
         {
             ViewBag.ShowDetails = sm.ShowDetails(IDkod);
+            ViewBag.GetAttributes = sm.GetAttributes(IDkod);
             return View();
         }
     }

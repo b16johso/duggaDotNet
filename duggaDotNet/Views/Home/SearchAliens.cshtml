@@ -13,12 +13,13 @@
         </tr>
         @foreach (var row in ViewBag.SearchResults.Rows)
         {
-            <tr>
-                @for (int i = 0; i < ViewBag.SearchResults.Columns.Count; ++i)
-                {
-                   <td>@row[i]</td>
-                }
-            </tr>
+        <tr>
+            @for (int i = 0; i < ViewBag.SearchResults.Columns.Count; ++i)
+            {
+                <td>@row[i]</td>
+            }
+            <td>@Html.ActionLink("Details", "ShowDetails", "Home", new { IDkod = row["IDkod"] }, new { title = "Click to show details for " + row["IDkod"] })</td>
+        </tr>
         }
     </table>
 }

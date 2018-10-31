@@ -2,20 +2,41 @@
     ViewBag.Title = "ShowDetails";
 }
 <h2>Aliens</h2>
-<table>
-    <tr>
-        @foreach (var dataColumn in ViewBag.ShowDetails.Columns)
+@if (ViewBag.ShowDetails != null && ((System.Data.DataTable)ViewBag.ShowDetails).Rows.Count > 0)
+{
+    <table>
+        <tr>
+            @foreach (var dataColumn in ViewBag.ShowDetails.Columns)
+            {
+                <th>@dataColumn.ColumnName</th>
+            }
+            <th>Kännetecken</th>
+        </tr>
+        @foreach (var alienRow in ViewBag.ShowDetails.Rows)
         {
-            <th>@dataColumn.ColumnName</th>
-        }
-    </tr>
-    @foreach (var alienRow in ViewBag.ShowDetails.Rows)
-    {
         <tr>
             @for (int i = 0; i < ViewBag.ShowDetails.Columns.Count; ++i)
             {
                 <td>@alienRow[i]</td>
             }
+            <td>
+                @foreach (var attributesRow in ViewBag.GetAttributes.Rows)
+                {
+                    @for (int i = 0; i < ViewBag.GetAttributes.Columns.Count; ++i)
+                    {
+                        @if (@attributesRow[i].ToString() != "")
+                        {
+                            @attributesRow[i]<br />
+                        }
+                    }
+                }
+            </td>
         </tr>
-    }
-</table>
+        }
+    </table>
+}
+else
+{
+<p> No details found</p>
+}
+@Html.ActionLink("Home", "Index", "Home", null, new { title = "Go back to search form" })

@@ -60,7 +60,6 @@ namespace duggaDotNet.Models
 
             return alienTable;
         }
-
         
         public void ClassifyRace(string race)
         {
@@ -81,6 +80,7 @@ namespace duggaDotNet.Models
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
             dbcon.Open();
+            //Add the race to the database if it doesn't already exist
             string insertRaceString = "INSERT INTO ras (namn) SELECT * FROM (SELECT @rasNamn) AS tmp WHERE NOT EXISTS (SELECT namn FROM ras WHERE namn = @rasNamn) LIMIT 1;";
             string insertAlienString = "INSERT INTO alien(IDkod, farlighet, rasNamn) values (@IDkod, @farlighet, @rasNamn);";
             string insertNameString = "INSERT INTO alienNamn(namn, IDkod) values (@namn, @IDkod);";
@@ -103,14 +103,31 @@ namespace duggaDotNet.Models
         {
             MySqlConnection dbcon = new MySqlConnection(connectionString);
             dbcon.Open();
-            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT regalien.*, alienNamn.namn FROM regalien,alienNamn WHERE regalien.IDkod=@IDkod AND regalien.IDkod=alienNamn.IDkod;", dbcon);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT alienNamn.namn, regalien.*  FROM regalien,alienNamn WHERE regalien.IDkod=@IDkod AND regalien.IDkod=alienNamn.IDkod;", dbcon);
             adapter.SelectCommand.Parameters.AddWithValue("@IDkod", IDkod);
             DataSet ds = new DataSet();
             adapter.Fill(ds, "result");
-            DataTable alienTable = ds.Tables["result"];
+            DataTable alienDetailsTable = ds.Tables["result"];
             dbcon.Close();
 
-            return alienTable;
+            return alienDetailsTable;
+        }
+
+        public DataTable GetAttributes(string IDkod)
+        {
+            MySqlConnection dbcon = new MySqlConnection(connectionString);
+            dbcon.Open();
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT färger.fNamn,typer.tNamn FROM alien,ktRas,färger,typer WHERE alien.IDkod=@IDkod AND ktRas.rasNamn=alien.rasNamn AND ktRas.hudfärg=färger.fID AND ktRas.typ=typer.tID;", dbcon);
+            adapter.SelectCommand.Parameters.AddWithValue("@IDkod", IDkod);
+            MySqlDataAdapter adapter2 = new MySqlDataAdapter("SELECT ktAlien.kläder, ktAlien.storlek FROM alien,ktAlien WHERE alien.IDkod=@IDkod AND ktAlien.IDkod=alien.IDkod;", dbcon);
+            adapter2.SelectCommand.Parameters.AddWithValue("@IDkod", IDkod);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "result");
+            adapter2.Fill(ds, "result");
+            DataTable alienDetailsTable = ds.Tables["result"];
+            dbcon.Close();
+
+            return alienDetailsTable;
         }
     }
 }
